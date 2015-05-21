@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script language="javascript" type="text/javascript" src='../jquery/jquery/jquery-2.0.3.min.js'></script>
+
+<script type="text/javascript">
+var storage = window.localStorage;
+function OnLoad() {
+	if(window.localStorage) {
+		// alert('This browser supports localStorage');
+	} else {
+		alert('This browser does NOT support localStorage');
+		return;
+	}
+	var html = randomChars(1024*1024*5 - 20,null,null);
+	
+	// 这里每次刷新都会将此值+1
+	if (!storage.getItem("allChars")) 
+		storage.setItem("allChars",html);
+	
+	else
+	{
+		try {
+			storage.allChars = storage.getItem("allChars") + html;
+		} catch(e) {
+			storage.allChars = "";
+		}
+	}
+	
+	$("#debug").append(storage.allChars.length / 1024 + "k");
+	$("#debug").append("<br>");
+	// $("#debug").append(storage.allChars);
+}
+
+
+/**
+ * 创建随机字符串
+ * @param strLen	字符串长度
+ * @param opt		null,NUMBER,UCASE,LCASE
+ * @param cut		null,cut array
+ * @returns {string}
+ */
+function randomChars(strLen,opt,cut){
+    var chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    if(opt){
+        switch(opt){
+            case'NUMBER':
+                chars="1234567890";
+                break;
+            case'UCASE':
+                chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                break;
+            case'LCASE':
+                chars="abcdefghijklmnopqrstuvwxyz";
+                break;
+        }
+    }
+    if(cut){
+        for(var i=cut.length-1;i>=0;i--){
+            chars=chars.replace(cut[i],'');
+        }
+    }
+
+    var len=chars.length;
+    var result="";
+    if(!strLen){
+        strLen=Math.random(len);
+    }
+    var d=Date.parse(new Date());
+    for(var i=0;i<strLen;i++){
+        result+=chars.charAt(Math.ceil(Math.random()*d)%len);
+    }
+    return  result;
+}
+
+</script>
+<title>js Array</title>
+</head>
+<body onload="OnLoad()">
+
+
+<div id="debug"></div>
+</body>
+</html>
+
