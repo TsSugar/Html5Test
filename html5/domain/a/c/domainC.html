@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script src='../../../../jquery/jquery/jquery-1.8.2.min.js'></script>
+<script type="text/javascript">
+var storage = window.localStorage;
+function OnLoad() {
+	if(!window.localStorage) {
+		alert('This browser does NOT support localStorage');
+		return;
+	}
+	
+	// 这里每次刷新都会将此值+1
+	if (!storage.getItem("pageLoadCount")) 
+		storage.setItem("pageLoadCount",0);
+		
+	storage.pageLoadCount = parseInt(storage.getItem("pageLoadCount")) + 1;//必须格式转换
+	document.getElementById("count").innerHTML = storage.pageLoadCount;
+}
+</script>
+<title>HTML5_TEST - domain a - c</title>
+</head>
+<body onload="OnLoad()">
+
+You have view this page: <span id="count"></span> time(s).<br>
+</body>
+</html>
